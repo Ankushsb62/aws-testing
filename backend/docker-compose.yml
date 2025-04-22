@@ -1,0 +1,374 @@
+# version: '3.9'
+
+# services:
+#   web:
+#     build: .
+#     container_name: django_app
+#     command: >
+#       sh -c "python3 manage.py makemigrations &&
+#          python3 manage.py migrate &&
+#          python3 manage.py runserver 0.0.0.0:8000"
+
+#     volumes:
+#       - .:/app
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - db
+#      # - redis
+
+#   db:
+#     image: postgis/postgis:15-3.3
+#     container_name: postgis_db
+#     restart: always
+#     environment:
+#       POSTGRES_DB: GEOPICX
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: admin
+#     volumes:
+#       - postgis_data:/var/lib/postgresql/data
+#     ports:
+#       - "5432:5432"
+
+#   # redis:
+#   #   image: redis:7
+#   #   container_name: redis_server
+#   #   restart: always
+
+#   # celery:
+#   #   build: .
+#   #   container_name: celery_worker
+#   #   command: celery -A your_project_name worker --loglevel=info
+#   #   volumes:
+#   #     - .:/app
+#   #   # env_file:
+#   #   #   - .env
+#   #   depends_on:
+#   #     - redis
+#   #     - db
+
+#   # celery-beat:
+#   #   build: .
+#   #   container_name: celery_beat
+#   #   command: celery -A your_project_name beat --loglevel=info
+#   #   volumes:
+#   #     - .:/app
+#   #   env_file:
+#   #     - .env
+#   #   depends_on:
+#   #     - redis
+#   #     - db
+
+# volumes:
+#   postgis_data:
+
+
+# version: '3.9'
+
+# services:
+#   web:
+#     build: .
+#     container_name: django_app
+#     command: >
+#       sh -c "python3 manage.py makemigrations &&
+#              python3 manage.py migrate &&
+#              python3 manage.py runserver 0.0.0.0:8000"
+#     volumes:
+#       - .:/app
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - db
+#     environment:
+#       POSTGRES_DB: GEOPICX
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: admin
+#       POSTGRES_HOST: db
+#       POSTGRES_PORT: 5432
+
+#   db:
+#     image: postgis/postgis:15-3.3
+#     container_name: postgis_db
+#     restart: always
+#     environment:
+#       POSTGRES_DB: GEOPICX
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: admin
+#     volumes:
+#       - postgis_data:/var/lib/postgresql/data
+#     ports:
+#       - "5432:5432"
+
+# volumes:
+#   postgis_data:
+
+# version: '3.9'
+
+# services:
+#   web:
+#     build: .
+#     container_name: django_app
+#     command: >
+#       sh -c "python3 manage.py makemigrations &&
+#              python3 manage.py migrate &&
+#              python3 manage.py runserver 0.0.0.0:8000"
+#     volumes:
+#       - .:/app
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - db
+#       - redis
+#     environment:
+#       POSTGRES_DB: GEOPICX
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: admin
+#       POSTGRES_HOST: db
+#       POSTGRES_PORT: 5432
+#       REDIS_URL: redis://redis:6379/0  # You can use this in Django settings
+
+#   db:
+#     image: postgis/postgis:15-3.3
+#     container_name: postgis_db
+#     restart: always
+#     environment:
+#       POSTGRES_DB: GEOPICX
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: admin
+#     volumes:
+#       - postgis_data:/var/lib/postgresql/data
+#     ports:
+#       - "5432:5432"
+
+#   redis:
+#     image: redis:7
+#     container_name: redis_server
+#     restart: always
+#     ports:
+#       - "6379:6379"
+
+# volumes:
+#   postgis_data:
+
+
+# version: '3.9'
+
+# services:
+#   web:
+#     build: .
+#     container_name: django_app
+#     command: >
+#       sh -c "python3 manage.py makemigrations &&
+#              python3 manage.py migrate &&
+#              python3 manage.py runserver 0.0.0.0:8000 &&
+#              daphne -b 0.0.0.0 -p 9000 backend.asgi:application"
+#     volumes:
+#       - .:/app
+#     ports:
+#       - "8000:8000"
+#       - "9000:9000"
+#     depends_on:
+#       - db
+#       - redis
+#     environment:
+#       POSTGRES_DB: GEOPICX
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: admin
+#       POSTGRES_HOST: db
+#       POSTGRES_PORT: 5432
+#       REDIS_URL: redis://redis:6379/0
+
+#   db:
+#     image: postgis/postgis:15-3.3
+#     container_name: postgis_db
+#     restart: always
+#     environment:
+#       POSTGRES_DB: GEOPICX
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: admin
+#     volumes:
+#       - postgis_data:/var/lib/postgresql/data
+#     ports:
+#       - "5432:5432"
+
+#   redis:
+#     image: redis:7
+#     container_name: redis_server
+#     restart: always
+#     ports:
+#       - "6379:6379"
+
+#   # celery:
+#   #   build: .
+#   #   container_name: celery_worker
+#   #   command: celery -A backend worker --loglevel=info
+#   #   volumes:
+#   #     - .:/app
+#   #   depends_on:
+#   #     - web
+#   #     - redis
+#   #     - db
+#   #   environment:
+#   #     REDIS_URL: redis://redis:6379/0
+
+# volumes:
+#   postgis_data:
+
+
+
+
+
+#THIS IS DOCKER-COMPOSE.YML OF DJNAGO + POSTGRESQL + REDIS + WEBSOCKET(WORKING)
+
+
+# version: '3.9'
+
+# services:
+#   django_app:
+#     build: .
+#     container_name: django_app
+#     command: >
+#       sh -c "python3 manage.py makemigrations &&
+#              python3 manage.py migrate &&
+#              python3 manage.py runserver 0.0.0.0:8000"
+#     volumes:
+#       - .:/app
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - db
+#       - redis
+#     environment:
+#       POSTGRES_DB: GEOPICX
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: admin
+#       POSTGRES_HOST: db
+#       POSTGRES_PORT: 5432
+#       REDIS_URL: redis://redis:6379/0
+
+#   django_web:
+#     build: .
+#     container_name: django_web
+#     command: daphne -b 0.0.0.0 -p 9000 backend.asgi:application
+#     volumes:
+#       - .:/app
+#     ports:
+#       - "9000:9000"
+#     depends_on:
+#       - db
+#       - redis
+#     environment:
+#       POSTGRES_DB: GEOPICX
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: admin
+#       POSTGRES_HOST: db
+#       POSTGRES_PORT: 5432
+#       REDIS_URL: redis://redis:6379/0
+
+#   db:
+#     image: postgis/postgis:15-3.3
+#     container_name: postgis_db
+#     restart: always
+#     environment:
+#       POSTGRES_DB: GEOPICX
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: admin
+#     volumes:
+#       - postgis_data:/var/lib/postgresql/data
+#     ports:
+#       - "5432:5432"
+
+#   redis:
+#     image: redis:7
+#     container_name: redis_server
+#     restart: always
+#     ports:
+#       - "6379:6379"
+
+# volumes:
+#   postgis_data:
+
+
+
+
+
+version: '3.9'
+
+services:
+  django_app:
+    build: .
+    container_name: django_app
+    command: >
+      sh -c "python3 manage.py makemigrations &&
+             python3 manage.py migrate &&
+             python3 manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      POSTGRES_DB: GEOPICX
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      REDIS_URL: redis://redis:6379/0
+
+  django_web:
+    build: .
+    container_name: django_web
+    command: daphne -b 0.0.0.0 -p 9000 backend.asgi:application
+    volumes:
+      - .:/app
+    ports:
+      - "9000:9000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      POSTGRES_DB: GEOPICX
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      REDIS_URL: redis://redis:6379/0
+
+  celery:
+    build: .
+    container_name: celery_worker
+    command: celery -A backend worker --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - django_app
+      - redis
+    environment:
+      REDIS_URL: redis://redis:6379/0
+
+  db:
+    image: postgis/postgis:15-3.3
+    container_name: postgis_db
+    restart: always
+    environment:
+      POSTGRES_DB: GEOPICX
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - postgis_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    container_name: redis_server
+    restart: always
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgis_data:
+
+
