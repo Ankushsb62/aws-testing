@@ -220,7 +220,7 @@ class GISConsumer(AsyncWebsocketConsumer):
                 self.scope["session"] = SessionStore(session_key=self.session_id)
                 await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
-                # Accept the connection before sending anything
+                # Accept the connection BEFORE sending anything
                 await self.accept()
 
                 # Now it is safe to send data
@@ -238,6 +238,7 @@ class GISConsumer(AsyncWebsocketConsumer):
             print("No session ID found in cookies. Rejecting connection.")
             await self.close()
             return  # Stop further processing
+
 
     @sync_to_async
     def async_create_new_session(self):
