@@ -195,7 +195,7 @@
 #*************************************************************************************************************************************************
 
 import json
-import redis.asyncio as redis  # Import the async Redis client
+import redis.asyncio as redis
 import uuid
 from django.conf import settings
 from django.contrib.sessions.models import Session
@@ -205,8 +205,6 @@ from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.db import DatabaseError
 
-redis_url = settings.CHANNEL_LAYERS["default"]["CONFIG"]["hosts"][0]
-redis_client = redis.StrictRedis.from_url(redis_url, decode_responses=True)
 
 class GISConsumer(AsyncWebsocketConsumer):
     async def connect(self):
