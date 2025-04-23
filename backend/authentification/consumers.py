@@ -1,6 +1,4 @@
 import redis.asyncio as redis  # Replace the regular redis import if you're using asyncio version
-
-
 import json
 import redis
 import uuid
@@ -24,55 +22,95 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from django.db import DatabaseError
 # import asyncpg
 from asgiref.sync import sync_to_async
+# class GISConsumer(AsyncWebsocketConsumer):
+#     async def connect(self):
+#         # self.session_id = "isvl8t76x271v5hnibv4yysrpi6uitum"
+#         # session_id = self.session_id
+#         # cookies = self.scope.get('cookies', {})
+#         print(f"Full scope: {self.scope}")
+#         self.session_id = self.scope.get('cookies', {}).get('sessionid', None)
+#         self.room_group_name = f"{self.session_id}" 
+#         print(f"Session ID from cookies: {self.session_id}")
+#         if self.session_id:
+#             try:
+#                 session = await sync_to_async(Session.objects.get)(session_key=self.session_id)
+#                 print(f"Session found in database: {session.session_key}")
+#                 # Load the session for use during the WebSocket connection
+#                 self.scope["session"] = SessionStore(session_key=self.session_id)
+#                 # self.session_id = session_id
+#                 await self.channel_layer.group_add(self.room_group_name, self.channel_name) #self.channel_name     dont assign any value for this
+#                 #Data save in redis
+#                 # redis = await redis.from_url(
+#                 #     'redis://127.0.0.1:6379'
+#                 # )
+#                 # session_exists = await redis.hexists(session_id, "session_data")
+#                 # if session_exists:
+#                 #     print(f"Session data for {session_id} already exists in Redis. Ignoring.")
+#                 # # Allow the WebSocket connection
+#                 # else:
+#                 #     # If session data does not exist, store it as None
+#                 #     session_data = None
+#                 #     # await redis.hmset_dict(session_id, {"session_data": session_data})
+#                 #     await redis.hset(session_id, mapping={"session_data": "session_data"})
+#                 #     print(f"Session data for {session_id} set to None in Redis.")
+#                 # redis.close()
+#                 # await redis.close()
+#                 await self.accept()
+#             except Session.DoesNotExist:
+#                 print("Invalid session ID. Rejecting connection.")
+#                 await self.close()
+#         # else:
+#         #     new_session = await self.async_create_new_session()
+#         #     session_id = new_session.session_key
+#         #     print(f"New session created: {session_id}")
+            
+#         #     # Save the new session in the scope for further use
+#         #     self.scope["session"] = new_session
+#         #     self.session_id = session_id
+            
+#         #     # Allow the WebSocket connection
+#         #     await self.accept()
+#         await self.send(text_data=json.dumps({"type": "SESSION_ID", "sessionid": self.session_id}))
+
+
+
+
+
 class GISConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        # self.session_id = "isvl8t76x271v5hnibv4yysrpi6uitum"
-        # session_id = self.session_id
-        # cookies = self.scope.get('cookies', {})
         print(f"Full scope: {self.scope}")
         self.session_id = self.scope.get('cookies', {}).get('sessionid', None)
-        self.room_group_name = f"{self.session_id}" 
+        self.room_group_name = f"{self.session_id}"
         print(f"Session ID from cookies: {self.session_id}")
+
         if self.session_id:
             try:
                 session = await sync_to_async(Session.objects.get)(session_key=self.session_id)
                 print(f"Session found in database: {session.session_key}")
-                # Load the session for use during the WebSocket connection
                 self.scope["session"] = SessionStore(session_key=self.session_id)
-                # self.session_id = session_id
-                await self.channel_layer.group_add(self.room_group_name, self.channel_name) #self.channel_name     dont assign any value for this
-                #Data save in redis
-                # redis = await redis.from_url(
-                #     'redis://127.0.0.1:6379'
-                # )
-                # session_exists = await redis.hexists(session_id, "session_data")
-                # if session_exists:
-                #     print(f"Session data for {session_id} already exists in Redis. Ignoring.")
-                # # Allow the WebSocket connection
-                # else:
-                #     # If session data does not exist, store it as None
-                #     session_data = None
-                #     # await redis.hmset_dict(session_id, {"session_data": session_data})
-                #     await redis.hset(session_id, mapping={"session_data": "session_data"})
-                #     print(f"Session data for {session_id} set to None in Redis.")
-                # redis.close()
-                # await redis.close()
+                await self.channel_layer.group_add(self.room_group_name, self.channel_name)
+
+                # Accept connection before sending
                 await self.accept()
+
+                # Now safe to send messages
+                await self.send(text_data=json.dumps({
+                    "type": "SESSION_ID",
+                    "sessionid": self.session_id
+                }))
+
             except Session.DoesNotExist:
                 print("Invalid session ID. Rejecting connection.")
                 await self.close()
-        # else:
-        #     new_session = await self.async_create_new_session()
-        #     session_id = new_session.session_key
-        #     print(f"New session created: {session_id}")
-            
-        #     # Save the new session in the scope for further use
-        #     self.scope["session"] = new_session
-        #     self.session_id = session_id
-            
-        #     # Allow the WebSocket connection
-        #     await self.accept()
-        await self.send(text_data=json.dumps({"type": "SESSION_ID", "sessionid": self.session_id}))
+                return  # Stop further processing
+
+        else:
+            print("No session ID found in cookies. Rejecting connection.")
+            await self.close()
+            return  # Stop further processing
+
+
+
 
     @sync_to_async
     def async_create_new_session(self):
