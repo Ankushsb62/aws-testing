@@ -128,11 +128,11 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-CORS_ORIGIN_WHITELIST = ['http://localhost:8080']
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8080']
+CORS_ORIGIN_WHITELIST = ['http://13.232.99.245:7000']
+CSRF_TRUSTED_ORIGINS = ['http://13.232.99.245:7000']
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",  # Replace with the URL of your React app
+    "http://13.232.99.245:7000",  # Replace with the URL of your React app
     # Add other allowed origins as needed
     
 ]
