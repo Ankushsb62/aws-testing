@@ -205,7 +205,6 @@ from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.db import DatabaseError
 
-
 class GISConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print(f"Full scope: {self.scope}")
@@ -250,7 +249,7 @@ class GISConsumer(AsyncWebsocketConsumer):
         redis_client = None
         try:
             redis_url = settings.CHANNEL_LAYERS["default"]["CONFIG"]["hosts"][0]
-            redis_client = redis.asyncio.Redis.from_url(redis_url, decode_responses=True)
+            redis_client = redis.Redis.from_url(redis_url, decode_responses=True)
 
             if self.session_id:
                 # Construct the Redis key and delete it
