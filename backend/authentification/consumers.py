@@ -205,6 +205,7 @@ from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.db import DatabaseError
 
+
 class GISConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print(f"Full scope: {self.scope}")
@@ -300,6 +301,7 @@ class GISConsumer(AsyncWebsocketConsumer):
             "text": text,
             "task_id": task_id
         }))
+
 
 
 
